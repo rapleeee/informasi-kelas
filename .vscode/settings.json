@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^python3 -c \"\nimport json\ntry:\n    with open\\('/Users/raflimaulana/project/informasi-kelas/public/space\\.lottie\\.json'\\) as f:\n        d = json\\.load\\(f\\)\n    print\\('space: v=', d\\.get\\('v'\\), 'frames=', d\\.get\\('op'\\)\\)\nexcept Exception as e:\n    print\\('space error:', e\\)\n\ntry:\n    with open\\('/Users/raflimaulana/project/informasi-kelas/public/rocket\\.lottie\\.json'\\) as f:\n        d = json\\.load\\(f\\)\n    print\\('rocket: v=', d\\.get\\('v'\\), 'frames=', d\\.get\\('op'\\)\\)\nexcept Exception as e:\n    print\\('rocket error:', e\\)\n\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

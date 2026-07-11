@@ -1,26 +1,430 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Design Tokens ─────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand Colors */
+  --primary: 250 84% 68%;         /* #6C63FF indigo */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 192 91% 55%;       /* #22D3EE cyan */
+  --accent: 43 96% 56%;           /* #F59E0B amber/gold */
+
+  /* Background */
+  --background: 240 15% 5%;       /* #0A0A1A dark */
+  --foreground: 240 30% 95%;      /* #F0F0FF */
+
+  /* Card / Glass */
+  --card: 240 20% 8%;
+  --card-foreground: 240 30% 95%;
+  --card-glass: rgba(255, 255, 255, 0.05);
+  --card-glass-border: rgba(255, 255, 255, 0.10);
+
+  /* Muted */
+  --muted: 240 15% 15%;
+  --muted-foreground: 240 10% 55%;
+
+  /* State */
+  --destructive: 0 72% 51%;
+  --success: 142 71% 45%;
+  --warning: 43 96% 56%;
+
+  /* Border & Input */
+  --border: rgba(255, 255, 255, 0.08);
+  --input: 240 15% 12%;
+  --ring: 250 84% 68%;
+
+  /* Radius */
+  --radius: 0.75rem;
 }
 
+/* ─── Tailwind v4 Theme Mapping ─────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-accent: hsl(var(--accent));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-success: hsl(var(--success));
+  --color-border: var(--border);
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --font-sans: var(--font-inter);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) + 8px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base Styles ───────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+}
+
+/* ─── Glass Morphism Utilities ──────────────────────── */
+.glass {
+  background: var(--card-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-glass-border);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ─── Gradient Backgrounds ──────────────────────────── */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #6C63FF 0%, #22D3EE 100%);
+}
+
+.bg-gradient-page {
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(108, 99, 255, 0.3), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(34, 211, 238, 0.15), transparent),
+    hsl(var(--background));
+}
+
+/* ─── Glow Effects ──────────────────────────────────── */
+.glow-primary {
+  box-shadow: 0 0 40px rgba(108, 99, 255, 0.4);
+}
+
+.glow-secondary {
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+}
+
+.text-glow {
+  text-shadow: 0 0 30px rgba(108, 99, 255, 0.6);
+}
+
+/* ─── Animated Gradient Text ────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #6C63FF, #22D3EE, #F59E0B, #6C63FF);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ─── Countdown Card Styles ─────────────────────────── */
+.countdown-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  border-radius: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.countdown-card:hover {
+  border-color: rgba(108, 99, 255, 0.6);
+  box-shadow: 0 0 30px rgba(108, 99, 255, 0.2);
+}
+
+/* ─── Particle Background ───────────────────────────── */
+.particles-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(108, 99, 255, 0.3);
+  animation: float-particle linear infinite;
+}
+
+@keyframes float-particle {
+  0% { transform: translateY(100vh) scale(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* ─── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(108, 99, 255, 0.5);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(108, 99, 255, 0.8);
+}
+
+/* ─── Animations ────────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(108, 99, 255, 0.4); }
+  50%       { box-shadow: 0 0 40px rgba(108, 99, 255, 0.8), 0 0 60px rgba(34, 211, 238, 0.3); }
+}
+
+.animate-fade-in-up { animation: fade-in-up 0.6s ease forwards; }
+.animate-fade-in    { animation: fade-in 0.5s ease forwards; }
+.animate-scale-in   { animation: scale-in 0.4s ease forwards; }
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+/* Stagger delays */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* ─── Admin Sidebar ─────────────────────────────────── */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: 0.625rem;
+  color: hsl(var(--muted-foreground));
+  transition: all 0.2s ease;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.sidebar-link:hover {
+  background: rgba(108, 99, 255, 0.1);
+  color: hsl(var(--foreground));
+}
+
+.sidebar-link.active {
+  background: rgba(108, 99, 255, 0.2);
+  color: hsl(var(--primary));
+  border: 1px solid rgba(108, 99, 255, 0.3);
+}
+
+/* ─── Table ─────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-table th {
+  background: rgba(255, 255, 255, 0.04);
+  color: hsl(var(--muted-foreground));
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.15s ease;
+}
+
+.data-table tbody tr:hover td {
+  background: rgba(108, 99, 255, 0.05);
+}
+
+/* ─── Import Preview Table ──────────────────────────── */
+.row-valid td {
+  background: rgba(34, 197, 94, 0.05);
+}
+.row-error td {
+  background: rgba(239, 68, 68, 0.06);
+}
+
+/* ─── Admin Form Input ──────────────────────────────── */
+.admin-input {
+  width: 100%;
+  background: hsl(var(--input));
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  color: hsl(var(--foreground));
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.admin-input::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+.admin-input:focus {
+  border-color: rgba(108, 99, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+}
+
+.admin-input option {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+}
+
+/* ─── Admin page background ─────────────────────────── */
+.bg-admin {
+  background: hsl(var(--background));
+}
+
+/* ══════════════════════════════════════════════════════
+   JOURNEY / COUNTDOWN PAGE — Color palette:
+   #213C51  dark navy  (background)
+   #6594B1  medium blue (labels, accents)
+   #DDAED3  soft pink   (highlights, subtitle)
+   #EEEEEE  near white  (main text, numbers)
+   ══════════════════════════════════════════════════════ */
+
+.journey-bg {
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(101, 148, 177, 0.15), transparent),
+    radial-gradient(ellipse 80% 60% at 80% 100%, rgba(221, 174, 211, 0.08), transparent),
+    #213C51;
+}
+
+/* Star dot */
+.star-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: #EEEEEE;
+  animation: star-twinkle ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: var(--star-op, 0.3); transform: scale(1); }
+  50%       { opacity: calc(var(--star-op, 0.3) * 0.3); transform: scale(0.6); }
+}
+
+/* School label */
+.journey-school {
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #6594B1;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+
+/* "JOURNEY BEGINS IN" heading */
+.journey-title {
+  font-size: clamp(1.4rem, 5vw, 3.25rem);
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  color: #EEEEEE;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Countdown number */
+.journey-number {
+  font-size: clamp(3.5rem, 12vw, 8rem);
+  font-weight: 200;
+  color: #EEEEEE;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Countdown unit label */
+.journey-label {
+  margin-top: 0.75rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #6594B1;
+  font-weight: 400;
+}
+
+/* Countdown unit animation */
+.journey-unit {
+  animation: fade-in-up 0.7s ease both;
+}
+
+/* Subtitle below countdown */
+.journey-subtitle {
+  margin-top: 1.75rem;
+  max-width: 42rem;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: #DDAED3;
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+/* Subtitle card */
+.journey-subtitle-card {
+  margin-top: 2rem;
+  max-width: 38rem;
+  background: rgba(101, 148, 177, 0.08);
+  border: 1px solid rgba(101, 148, 177, 0.25);
+  border-radius: 1rem;
+  padding: 1.25rem 1.75rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 24px rgba(33, 60, 81, 0.4), inset 0 1px 0 rgba(221, 174, 211, 0.12);
+}
+
+.journey-subtitle-text {
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  color: #EEEEEE;
+  line-height: 1.8;
+  letter-spacing: 0.025em;
+  text-align: center;
+  opacity: 0.92;
 }
