@@ -127,9 +127,9 @@ export default function HomePage() {
           {/* Subtitle card */}
           <div className="journey-subtitle-card animate-fade-in-up delay-400 mt-4 md:mt-6">
             <p className="journey-subtitle-text">
-              Perjalanan selanjutnya lebih menantang,
+              Siap untuk kelas barumu?,
              <br />
-              <span className="font-bold">Cek lagi ya website ini untuk informasi terbaru. Semoga sukses!</span>
+              <span className="font-bold">Cek lagi ya website ini untuk informasi terbaru. Semangat menyambut kelas baru!</span>
             </p>
           </div>
         </div>
