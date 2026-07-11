@@ -30,8 +30,8 @@ export async function POST(request: Request) {
     prisma.siswa.findMany({ select: { nis: true } }),
   ]);
 
-  const availableKelas = allKelas.map((k) => k.namaKelas);
-  const existingNis = allSiswa.map((s) => s.nis);
+  const availableKelas = allKelas.map((k: { namaKelas: string }) => k.namaKelas);
+  const existingNis = allSiswa.map((s: { nis: string }) => s.nis);
 
   // Validasi baris
   const validated = validateImportRows(rows, availableKelas, existingNis);
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
   // Buat map kelas name → id
   const kelasMap = new Map<string, number>();
   const kelasAll = await prisma.kelas.findMany({ select: { id: true, namaKelas: true } });
-  kelasAll.forEach((k) => kelasMap.set(k.namaKelas, k.id));
+  kelasAll.forEach((k: { id: number; namaKelas: string }) => kelasMap.set(k.namaKelas, k.id));
 
   // Batch insert
   await prisma.siswa.createMany({

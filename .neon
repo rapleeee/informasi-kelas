@@ -1,0 +1,10 @@
+{
+  "_init": {
+    "features": [
+      "database",
+      "auth"
+    ]
+  },
+  "orgId": "org-summer-pine-78395344",
+  "projectId": "old-shadow-58131298"
+}
