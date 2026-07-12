@@ -34,61 +34,59 @@ export default async function DashboardPage() {
       label: "Total Siswa",
       value: totalSiswa.toLocaleString("id-ID"),
       icon: Users,
-      color: "text-primary",
-      bg: "bg-primary/10 border-primary/20",
+      color: "text-foreground",
+      bg: "bg-white",
     },
     {
       label: "Total Kelas",
       value: totalKelas.toLocaleString("id-ID"),
       icon: School,
-      color: "text-secondary",
-      bg: "bg-secondary/10 border-secondary/20",
+      color: "text-foreground",
+      bg: "bg-white",
     },
     {
       label: "Status Pengumuman",
       value: isLive ? "LIVE" : "Countdown",
       icon: Radio,
-      color: isLive ? "text-success" : "text-accent",
-      bg: isLive
-        ? "bg-success/10 border-success/20"
-        : "bg-accent/10 border-accent/20",
+      color: isLive ? "text-white" : "text-foreground",
+      bg: isLive ? "bg-success" : "bg-accent",
     },
     {
       label: "Jadwal Datang",
       value: pengaturan?.jadwalDatang ?? "-",
       icon: Calendar,
-      color: "text-muted-foreground",
-      bg: "bg-white/5 border-white/10",
+      color: "text-foreground",
+      bg: "bg-white",
       small: true,
     },
   ];
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground text-sm mt-1">
+      <div className="mb-8 brutal-block bg-white p-6 shadow-[4px_4px_0px_#000]">
+        <h1 className="heading-brutal text-3xl">Dashboard</h1>
+        <p className="text-foreground font-bold mt-2">
           Selamat datang di panel admin SMK Informatika Pesat.
         </p>
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {statCards.map(({ label, value, icon: Icon, color, bg, small }) => (
           <div
             key={label}
-            className={`glass-strong rounded-2xl p-5 border ${bg}`}
+            className={`brutal-block p-5 shadow-[4px_4px_0px_#000] ${bg}`}
           >
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
+            <div className="flex items-center justify-between mb-4">
+              <p className={`text-xs font-black uppercase tracking-wider ${color}`}>
                 {label}
               </p>
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${bg}`}>
-                <Icon className={`w-4 h-4 ${color}`} />
+              <div className={`w-8 h-8 flex items-center justify-center border-2 border-border bg-white`}>
+                <Icon className={`w-4 h-4 text-foreground`} />
               </div>
             </div>
             <p
-              className={`font-bold ${color} ${small ? "text-sm leading-snug" : "text-2xl"}`}
+              className={`font-black ${color} ${small ? "text-lg leading-snug" : "text-4xl"}`}
             >
               {value}
             </p>
@@ -97,38 +95,40 @@ export default async function DashboardPage() {
       </div>
 
       {/* Info Pengumuman */}
-      <div className="glass-strong rounded-2xl p-6 border border-white/10">
-        <h2 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
+      <div className="brutal-card p-6 shadow-[6px_6px_0px_#000]">
+        <h2 className="text-lg font-black text-primary mb-6 uppercase tracking-wider border-b-4 border-border pb-2 inline-block">
           Detail Pengumuman
         </h2>
-        <dl className="space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1">
-            <dt className="text-xs text-muted-foreground w-44 flex-shrink-0">
+        <dl className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <dt className="text-xs font-bold text-muted-foreground uppercase tracking-widest sm:w-48 flex-shrink-0">
               Judul Pengumuman
             </dt>
-            <dd className="text-sm text-foreground font-medium">
+            <dd className="text-sm font-black text-foreground bg-muted px-2 py-1 border-2 border-border">
               {pengaturan?.judulPengumuman ?? "-"}
             </dd>
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1">
-            <dt className="text-xs text-muted-foreground w-44 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <dt className="text-xs font-bold text-muted-foreground uppercase tracking-widest sm:w-48 flex-shrink-0">
               Tanggal Pengumuman
             </dt>
-            <dd className="text-sm text-foreground">{tglPengumuman}</dd>
+            <dd className="text-sm font-bold text-foreground">
+              {tglPengumuman}
+            </dd>
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1">
-            <dt className="text-xs text-muted-foreground w-44 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <dt className="text-xs font-bold text-muted-foreground uppercase tracking-widest sm:w-48 flex-shrink-0">
               Jadwal Datang
             </dt>
-            <dd className="text-sm text-foreground">
+            <dd className="text-sm font-bold text-foreground">
               {pengaturan?.jadwalDatang ?? "-"}
             </dd>
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-start gap-1">
-            <dt className="text-xs text-muted-foreground w-44 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-2">
+            <dt className="text-xs font-bold text-muted-foreground uppercase tracking-widest sm:w-48 flex-shrink-0 mt-1">
               Deskripsi
             </dt>
-            <dd className="text-sm text-muted-foreground leading-relaxed">
+            <dd className="text-sm font-semibold text-foreground leading-relaxed max-w-2xl bg-white border-2 border-border p-3">
               {pengaturan?.deskripsiSingkat ?? "-"}
             </dd>
           </div>

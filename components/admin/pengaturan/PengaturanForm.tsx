@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2, Save, CheckCircle2 } from "lucide-react";
+import { Loader2, Save } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 const pengaturanSchema = z.object({
   tanggalPengumuman: z.string().min(1, "Tanggal pengumuman wajib diisi"),
@@ -34,8 +35,6 @@ function fromLocalDatetimeInput(value: string) {
 
 export default function PengaturanForm() {
   const [loading, setLoading] = useState(true);
-  const [saved, setSaved] = useState(false);
-  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
@@ -64,8 +63,6 @@ export default function PengaturanForm() {
   }, [reset]);
 
   async function onSubmit(data: PengaturanForm) {
-    setServerError(null);
-    setSaved(false);
     try {
       const res = await fetch("/api/pengaturan", {
         method: "PUT",
@@ -77,42 +74,43 @@ export default function PengaturanForm() {
       });
       if (!res.ok) {
         const err = await res.json();
-        setServerError(err.error ?? "Terjadi kesalahan.");
+        toast.error(err.error ?? "Terjadi kesalahan.");
         return;
       }
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      toast.success("Pengaturan berhasil disimpan!");
+      // Reset isDirty state by resetting with current data
+      reset(data);
     } catch {
-      setServerError("Gagal terhubung ke server.");
+      toast.error("Gagal terhubung ke server.");
     }
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
-        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 max-w-2xl">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
       {/* Tanggal Pengumuman */}
       <div>
-        <label className="block text-sm font-medium text-foreground mb-1.5">
+        <label className="block text-sm font-black uppercase text-foreground mb-2">
           Tanggal & Waktu Pengumuman
         </label>
         <input
           type="datetime-local"
-          className="admin-input"
+          className="brutal-input w-full"
           {...register("tanggalPengumuman")}
         />
         {errors.tanggalPengumuman && (
-          <p className="mt-1 text-xs text-destructive">
+          <p className="mt-2 text-xs font-bold text-white bg-destructive inline-block px-2 py-1 shadow-[2px_2px_0px_#000]">
             {errors.tanggalPengumuman.message}
           </p>
         )}
-        <p className="mt-1 text-xs text-muted-foreground">
+        <p className="mt-2 text-xs font-bold text-muted-foreground uppercase">
           Gunakan waktu WIB (UTC+7). Website akan otomatis tampil live setelah
           waktu ini.
         </p>
@@ -120,38 +118,38 @@ export default function PengaturanForm() {
 
       {/* Jadwal Datang */}
       <div>
-        <label className="block text-sm font-medium text-foreground mb-1.5">
+        <label className="block text-sm font-black uppercase text-foreground mb-2">
           Jadwal Datang ke Sekolah
         </label>
         <input
           type="text"
-          className="admin-input"
+          className="brutal-input w-full"
           placeholder="contoh: Rabu, 15 Juli 2026 pukul 07.00 WIB"
           {...register("jadwalDatang")}
         />
         {errors.jadwalDatang && (
-          <p className="mt-1 text-xs text-destructive">
+          <p className="mt-2 text-xs font-bold text-white bg-destructive inline-block px-2 py-1 shadow-[2px_2px_0px_#000]">
             {errors.jadwalDatang.message}
           </p>
         )}
-        <p className="mt-1 text-xs text-muted-foreground">
+        <p className="mt-2 text-xs font-bold text-muted-foreground uppercase">
           Jadwal ini akan tampil di kartu informasi kelas siswa.
         </p>
       </div>
 
       {/* Judul Pengumuman */}
       <div>
-        <label className="block text-sm font-medium text-foreground mb-1.5">
+        <label className="block text-sm font-black uppercase text-foreground mb-2">
           Judul Pengumuman
         </label>
         <input
           type="text"
-          className="admin-input"
+          className="brutal-input w-full"
           placeholder="contoh: Pengumuman Resmi Pembagian Kelas TP 2026/2027"
           {...register("judulPengumuman")}
         />
         {errors.judulPengumuman && (
-          <p className="mt-1 text-xs text-destructive">
+          <p className="mt-2 text-xs font-bold text-white bg-destructive inline-block px-2 py-1 shadow-[2px_2px_0px_#000]">
             {errors.judulPengumuman.message}
           </p>
         )}
@@ -159,47 +157,34 @@ export default function PengaturanForm() {
 
       {/* Deskripsi */}
       <div>
-        <label className="block text-sm font-medium text-foreground mb-1.5">
+        <label className="block text-sm font-black uppercase text-foreground mb-2">
           Deskripsi Singkat
         </label>
         <textarea
           rows={3}
-          className="admin-input resize-none"
+          className="brutal-input w-full resize-none"
           placeholder="Deskripsi yang tampil di bawah judul halaman publik..."
           {...register("deskripsiSingkat")}
         />
         {errors.deskripsiSingkat && (
-          <p className="mt-1 text-xs text-destructive">
+          <p className="mt-2 text-xs font-bold text-white bg-destructive inline-block px-2 py-1 shadow-[2px_2px_0px_#000]">
             {errors.deskripsiSingkat.message}
           </p>
         )}
       </div>
 
-      {serverError && (
-        <div className="bg-destructive/10 border border-destructive/30 rounded-lg px-4 py-2.5 text-sm text-destructive">
-          {serverError}
-        </div>
-      )}
-
-      {saved && (
-        <div className="flex items-center gap-2 bg-success/10 border border-success/30 rounded-lg px-4 py-2.5 text-sm text-success">
-          <CheckCircle2 className="w-4 h-4" />
-          Pengaturan berhasil disimpan!
-        </div>
-      )}
-
-      <div>
+      <div className="pt-4">
         <button
           type="submit"
           disabled={isSubmitting || !isDirty}
-          className="flex items-center gap-2 bg-gradient-primary text-white text-sm font-semibold px-6 py-2.5 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+          className="brutal-btn px-6 py-3 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="w-5 h-5 animate-spin" />
           ) : (
-            <Save className="w-4 h-4" />
+            <Save className="w-5 h-5" />
           )}
-          Simpan Perubahan
+          SIMPAN PERUBAHAN
         </button>
       </div>
     </form>

@@ -3,40 +3,40 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── Design Tokens ─────────────────────────────────── */
+/* ─── Design Tokens (Brutalism: Dongker, Oranye, Abu) ─── */
 :root {
   /* Brand Colors */
-  --primary: 250 84% 68%;         /* #6C63FF indigo */
+  --primary: 213 62% 21%;         /* Dongker / Navy Blue (#1E3A8A) */
   --primary-foreground: 0 0% 100%;
-  --secondary: 192 91% 55%;       /* #22D3EE cyan */
-  --accent: 43 96% 56%;           /* #F59E0B amber/gold */
+  
+  --secondary: 24 95% 53%;        /* Oranye mencolok (#F97316) */
+  --secondary-foreground: 222 47% 11%; /* Hitam tegas untuk kontras dengan Oranye */
+  
+  --accent: 43 96% 56%;           /* Kuning/Emas sebagai aksen tambahan */
 
   /* Background */
-  --background: 240 15% 5%;       /* #0A0A1A dark */
-  --foreground: 240 30% 95%;      /* #F0F0FF */
+  --background: 210 20% 98%;      /* Abu-abu sangat terang / Putih tulang */
+  --foreground: 222 47% 11%;      /* Hampir Hitam untuk teks utama */
 
-  /* Card / Glass */
-  --card: 240 20% 8%;
-  --card-foreground: 240 30% 95%;
-  --card-glass: rgba(255, 255, 255, 0.05);
-  --card-glass-border: rgba(255, 255, 255, 0.10);
-
+  /* Card / Blocks */
+  --card: 0 0% 100%;              /* Putih solid */
+  --card-foreground: 222 47% 11%;
+  
   /* Muted */
-  --muted: 240 15% 15%;
-  --muted-foreground: 240 10% 55%;
+  --muted: 210 40% 90%;
+  --muted-foreground: 215 16% 47%;
 
   /* State */
-  --destructive: 0 72% 51%;
+  --destructive: 0 84% 60%;
   --success: 142 71% 45%;
-  --warning: 43 96% 56%;
 
   /* Border & Input */
-  --border: rgba(255, 255, 255, 0.08);
-  --input: 240 15% 12%;
-  --ring: 250 84% 68%;
+  --border: 222 47% 11%;          /* Border gelap/hitam tegas */
+  --input: 0 0% 100%;
+  --ring: 213 62% 21%;            /* Ring dongker */
 
-  /* Radius */
-  --radius: 0.75rem;
+  /* Radius (Brutalism biasanya kotak tegas atau radius sangat kecil) */
+  --radius: 0px; 
 }
 
 /* ─── Tailwind v4 Theme Mapping ─────────────────────── */
@@ -46,6 +46,7 @@
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
   --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
   --color-accent: hsl(var(--accent));
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
@@ -53,21 +54,21 @@
   --color-muted-foreground: hsl(var(--muted-foreground));
   --color-destructive: hsl(var(--destructive));
   --color-success: hsl(var(--success));
-  --color-border: var(--border);
+  --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
 
   --font-sans: var(--font-inter);
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius-sm: var(--radius);
   --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) + 4px);
-  --radius-xl: calc(var(--radius) + 8px);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
 }
 
 /* ─── Base Styles ───────────────────────────────────── */
 * {
   box-sizing: border-box;
-  border-color: var(--border);
+  border-color: hsl(var(--border));
 }
 
 html {
@@ -83,348 +84,210 @@ body {
   min-height: 100dvh;
 }
 
-/* ─── Glass Morphism Utilities ──────────────────────── */
-.glass {
-  background: var(--card-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--card-glass-border);
+/* ─── Brutalism Utilities ───────────────────────────── */
+
+/* Blok solid dengan border tebal (Tidak mengambang) */
+.brutal-block {
+  background-color: hsl(var(--card));
+  border: 3px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  transition: all 0.2s ease;
 }
 
-.glass-strong {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+/* Block interaktif (tombol) - hard shadow padat yang 'ditekan' saat active */
+.brutal-btn {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 3px solid hsl(var(--border));
+  box-shadow: 4px 4px 0px hsl(var(--border));
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
-/* ─── Gradient Backgrounds ──────────────────────────── */
-.bg-gradient-primary {
-  background: linear-gradient(135deg, #6C63FF 0%, #22D3EE 100%);
+.brutal-btn:hover {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
 }
 
-.bg-gradient-page {
-  background: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(108, 99, 255, 0.3), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(34, 211, 238, 0.15), transparent),
-    hsl(var(--background));
+.brutal-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px hsl(var(--border));
 }
 
-/* ─── Glow Effects ──────────────────────────────────── */
-.glow-primary {
-  box-shadow: 0 0 40px rgba(108, 99, 255, 0.4);
+.brutal-btn-secondary {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border: 3px solid hsl(var(--border));
+  box-shadow: 4px 4px 0px hsl(var(--border));
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: transform 0.1s, box-shadow 0.1s;
 }
 
-.glow-secondary {
-  box-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+.brutal-btn-secondary:hover {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
 
-.text-glow {
-  text-shadow: 0 0 30px rgba(108, 99, 255, 0.6);
+.brutal-btn-secondary:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px hsl(var(--border));
 }
 
-/* ─── Animated Gradient Text ────────────────────────── */
-.gradient-text {
-  background: linear-gradient(135deg, #6C63FF, #22D3EE, #F59E0B, #6C63FF);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradient-shift 6s ease infinite;
+/* Card statis yang tertanam kuat (plant) - hard shadow tanpa hover melayang */
+.brutal-card {
+  background-color: hsl(var(--card));
+  border: 3px solid hsl(var(--border));
+  box-shadow: 6px 6px 0px hsl(var(--border));
 }
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Input Form Brutalism */
+.brutal-input {
+  background-color: hsl(var(--input));
+  border: 3px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  font-weight: 500;
+  border-radius: 0;
+  transition: all 0.2s;
+}
+.brutal-input:focus {
+  outline: none;
+  background-color: #FDFDFD;
+  box-shadow: 4px 4px 0px hsl(var(--secondary));
+  border-color: hsl(var(--border));
 }
 
-/* ─── Countdown Card Styles ─────────────────────────── */
-.countdown-card {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(108, 99, 255, 0.3);
-  border-radius: 1rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+/* ─── Typography & Background Utilities ─────────────── */
+
+.bg-pattern {
+  background-color: hsl(var(--background));
+  background-image: radial-gradient(hsl(var(--muted-foreground)/0.2) 2px, transparent 2px);
+  background-size: 24px 24px;
 }
 
-.countdown-card:hover {
-  border-color: rgba(108, 99, 255, 0.6);
-  box-shadow: 0 0 30px rgba(108, 99, 255, 0.2);
+.heading-brutal {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: hsl(var(--primary));
+  text-shadow: 2px 2px 0px hsl(var(--border));
 }
 
-/* ─── Particle Background ───────────────────────────── */
-.particles-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.particle {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(108, 99, 255, 0.3);
-  animation: float-particle linear infinite;
-}
-
-@keyframes float-particle {
-  0% { transform: translateY(100vh) scale(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 0.5; }
-  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+.badge-brutal {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border: 2px solid hsl(var(--border));
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* ─── Scrollbar ─────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 12px;
+  height: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
+  background: hsl(var(--background));
+  border-left: 2px solid hsl(var(--border));
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(108, 99, 255, 0.5);
-  border-radius: 3px;
+  background: hsl(var(--primary));
+  border: 2px solid hsl(var(--border));
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(108, 99, 255, 0.8);
+  background: hsl(var(--secondary));
 }
 
 /* ─── Animations ────────────────────────────────────── */
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes slide-in-sharp {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-@keyframes fade-in {
+@keyframes fade-in-sharp {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-@keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(108, 99, 255, 0.4); }
-  50%       { box-shadow: 0 0 40px rgba(108, 99, 255, 0.8), 0 0 60px rgba(34, 211, 238, 0.3); }
-}
-
-.animate-fade-in-up { animation: fade-in-up 0.6s ease forwards; }
-.animate-fade-in    { animation: fade-in 0.5s ease forwards; }
-.animate-scale-in   { animation: scale-in 0.4s ease forwards; }
-.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-slide-in { animation: slide-in-sharp 0.3s ease-out forwards; }
+.animate-fade-in  { animation: fade-in-sharp 0.3s ease-out forwards; }
 
 /* Stagger delays */
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
-.delay-500 { animation-delay: 0.5s; }
-.delay-600 { animation-delay: 0.6s; }
 
 /* ─── Admin Sidebar ─────────────────────────────────── */
 .sidebar-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.625rem 0.875rem;
-  border-radius: 0.625rem;
-  color: hsl(var(--muted-foreground));
-  transition: all 0.2s ease;
+  padding: 0.75rem 1rem;
+  color: hsl(var(--foreground));
   text-decoration: none;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  transition: all 0.1s ease;
 }
 
 .sidebar-link:hover {
-  background: rgba(108, 99, 255, 0.1);
-  color: hsl(var(--foreground));
+  background-color: hsl(var(--muted));
+  border: 2px solid hsl(var(--border));
 }
 
 .sidebar-link.active {
-  background: rgba(108, 99, 255, 0.2);
-  color: hsl(var(--primary));
-  border: 1px solid rgba(108, 99, 255, 0.3);
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 2px solid hsl(var(--border));
+  box-shadow: 3px 3px 0px hsl(var(--border));
 }
 
 /* ─── Table ─────────────────────────────────────────── */
 .data-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+  border: 2px solid hsl(var(--border));
 }
 
 .data-table th {
-  background: rgba(255, 255, 255, 0.04);
-  color: hsl(var(--muted-foreground));
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--border);
 }
 
 .data-table td {
+  background: hsl(var(--card));
   padding: 0.875rem 1rem;
   font-size: 0.875rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: background 0.15s ease;
+  font-weight: 500;
 }
 
 .data-table tbody tr:hover td {
-  background: rgba(108, 99, 255, 0.05);
+  background: hsl(var(--muted));
 }
 
 /* ─── Import Preview Table ──────────────────────────── */
 .row-valid td {
-  background: rgba(34, 197, 94, 0.05);
+  background: hsl(var(--success)/0.2);
 }
 .row-error td {
-  background: rgba(239, 68, 68, 0.06);
-}
-
-/* ─── Admin Form Input ──────────────────────────────── */
-.admin-input {
-  width: 100%;
-  background: hsl(var(--input));
-  border: 1px solid var(--border);
-  border-radius: 0.625rem;
-  padding: 0.625rem 0.875rem;
-  font-size: 0.875rem;
-  color: hsl(var(--foreground));
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.admin-input::placeholder {
-  color: hsl(var(--muted-foreground));
-}
-
-.admin-input:focus {
-  border-color: rgba(108, 99, 255, 0.6);
-  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
-}
-
-.admin-input option {
-  background: hsl(var(--card));
-  color: hsl(var(--foreground));
-}
-
-/* ─── Admin page background ─────────────────────────── */
-.bg-admin {
-  background: hsl(var(--background));
-}
-
-/* ══════════════════════════════════════════════════════
-   JOURNEY / COUNTDOWN PAGE — Color palette:
-   #213C51  dark navy  (background)
-   #6594B1  medium blue (labels, accents)
-   #DDAED3  soft pink   (highlights, subtitle)
-   #EEEEEE  near white  (main text, numbers)
-   ══════════════════════════════════════════════════════ */
-
-.journey-bg {
-  background:
-    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(101, 148, 177, 0.15), transparent),
-    radial-gradient(ellipse 80% 60% at 80% 100%, rgba(221, 174, 211, 0.08), transparent),
-    #213C51;
-}
-
-/* Star dot */
-.star-dot {
-  position: absolute;
-  border-radius: 50%;
-  background: #EEEEEE;
-  animation: star-twinkle ease-in-out infinite;
-}
-
-@keyframes star-twinkle {
-  0%, 100% { opacity: var(--star-op, 0.3); transform: scale(1); }
-  50%       { opacity: calc(var(--star-op, 0.3) * 0.3); transform: scale(0.6); }
-}
-
-/* School label */
-.journey-school {
-  font-size: 0.7rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: #6594B1;
-  font-weight: 500;
-  margin-bottom: 1.25rem;
-}
-
-/* "JOURNEY BEGINS IN" heading */
-.journey-title {
-  font-size: clamp(1.4rem, 5vw, 3.25rem);
-  font-weight: 300;
-  letter-spacing: 0.25em;
-  color: #EEEEEE;
-  text-transform: uppercase;
-  line-height: 1;
-}
-
-/* Countdown number */
-.journey-number {
-  font-size: clamp(3.5rem, 12vw, 8rem);
-  font-weight: 200;
-  color: #EEEEEE;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Countdown unit label */
-.journey-label {
-  margin-top: 0.75rem;
-  font-size: 0.65rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: #6594B1;
-  font-weight: 400;
-}
-
-/* Countdown unit animation */
-.journey-unit {
-  animation: fade-in-up 0.7s ease both;
-}
-
-/* Subtitle below countdown */
-.journey-subtitle {
-  margin-top: 1.75rem;
-  max-width: 42rem;
-  font-size: clamp(0.8rem, 2vw, 1rem);
-  color: #DDAED3;
-  line-height: 1.75;
-  letter-spacing: 0.02em;
-  opacity: 0.9;
-}
-
-/* Subtitle card */
-.journey-subtitle-card {
-  margin-top: 2rem;
-  max-width: 38rem;
-  background: rgba(101, 148, 177, 0.08);
-  border: 1px solid rgba(101, 148, 177, 0.25);
-  border-radius: 1rem;
-  padding: 1.25rem 1.75rem;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 24px rgba(33, 60, 81, 0.4), inset 0 1px 0 rgba(221, 174, 211, 0.12);
-}
-
-.journey-subtitle-text {
-  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
-  color: #EEEEEE;
-  line-height: 1.8;
-  letter-spacing: 0.025em;
-  text-align: center;
-  opacity: 0.92;
+  background: hsl(var(--destructive)/0.2);
 }

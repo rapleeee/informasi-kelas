@@ -98,31 +98,31 @@ export default function SiswaPage() {
   return (
     <div>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 brutal-block bg-white p-6 shadow-[4px_4px_0px_#000]">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Data Siswa</h1>
-          <p className="text-muted-foreground text-sm mt-0.5">
+          <h1 className="heading-brutal text-3xl">Data Siswa</h1>
+          <p className="text-foreground font-bold mt-1">
             {siswaRes ? `Total ${siswaRes.total.toLocaleString("id-ID")} siswa` : "Memuat..."}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => window.open("/api/siswa/template", "_blank")}
-            className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-border text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all"
+            className="px-4 py-2 flex items-center justify-center gap-1.5 border-[3px] border-border bg-white text-foreground hover:bg-muted font-black uppercase text-sm shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
           >
             <Download className="w-4 h-4" />
             Template
           </button>
           <button
             onClick={() => setImportOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-primary/40 text-sm font-medium text-primary hover:bg-primary/10 transition-all"
+            className="px-4 py-2 flex items-center justify-center gap-1.5 border-[3px] border-border bg-secondary text-secondary-foreground hover:bg-white font-black uppercase text-sm shadow-[2px_2px_0px_#000] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
           >
             <Upload className="w-4 h-4" />
             Import Excel
           </button>
           <button
             onClick={() => { setEditSiswa(null); setModalOpen(true); }}
-            className="flex items-center gap-2 bg-gradient-primary text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition-opacity"
+            className="brutal-btn px-4 py-2 flex items-center justify-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Tambah
@@ -131,87 +131,74 @@ export default function SiswaPage() {
       </div>
 
       {/* Search */}
-      <div className="relative mb-5">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+      <div className="relative mb-6">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
         <input
           type="text"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Cari nama, NIS, atau kelas..."
-          className="admin-input pl-9"
+          className="brutal-input w-full pl-12 py-3"
         />
       </div>
 
       {/* Table */}
-      <div className="glass-strong rounded-2xl border border-white/10 overflow-hidden">
+      <div className="brutal-block bg-white shadow-[6px_6px_0px_#000] overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-16">
-            <Loader2 className="w-6 h-6 animate-spin text-primary" />
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         ) : !siswaRes || siswaRes.data.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
-            <Users className="w-10 h-10 mb-3 opacity-30" />
-            <p className="text-sm">
+            <Users className="w-12 h-12 mb-4 opacity-30" />
+            <p className="text-sm font-bold uppercase">
               {search ? "Siswa tidak ditemukan" : "Belum ada data siswa"}
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="data-table">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium w-12">
-                    No
-                  </th>
-                  <th className="text-left px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                    NIS
-                  </th>
-                  <th className="text-left px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                    Nama Lengkap
-                  </th>
-                  <th className="text-left px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                    Kelas
-                  </th>
-                  <th className="text-right px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                    Aksi
-                  </th>
+                <tr>
+                  <th className="w-12">No</th>
+                  <th>NIS</th>
+                  <th>Nama Lengkap</th>
+                  <th>Kelas</th>
+                  <th className="text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 {siswaRes.data.map((siswa, idx) => (
-                  <tr
-                    key={siswa.id}
-                    className="border-b border-border/50 hover:bg-white/3 transition-colors last:border-0"
-                  >
-                    <td className="px-5 py-4 text-muted-foreground">
+                  <tr key={siswa.id}>
+                    <td className="text-center">
                       {(page - 1) * LIMIT + idx + 1}
                     </td>
-                    <td className="px-5 py-4 font-mono text-foreground text-xs">
+                    <td className="font-mono text-foreground text-xs font-bold bg-muted px-2 border-r-2 border-border">
                       {siswa.nis}
                     </td>
-                    <td className="px-5 py-4 font-medium text-foreground">
+                    <td className="font-black text-primary">
                       {siswa.namaLengkap}
                     </td>
-                    <td className="px-5 py-4">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                    <td>
+                      <span className="badge-brutal">
                         {siswa.kelas.namaKelas}
                       </span>
                     </td>
-                    <td className="px-5 py-4">
+                    <td>
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => { setEditSiswa(siswa); setModalOpen(true); }}
-                          className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all"
+                          className="p-2 border-[3px] border-border bg-white text-foreground hover:bg-primary hover:text-white transition-colors"
                           title="Edit"
                         >
-                          <Pencil className="w-3.5 h-3.5" />
+                          <Pencil className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => setDeleteTarget(siswa)}
-                          className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+                          className="p-2 border-[3px] border-border bg-white text-destructive hover:bg-destructive hover:text-white transition-colors"
                           title="Hapus"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
@@ -225,24 +212,24 @@ export default function SiswaPage() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-4 text-sm">
-          <p className="text-muted-foreground text-xs">
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4 brutal-block bg-white p-4 shadow-[4px_4px_0px_#000]">
+          <p className="font-black uppercase text-sm">
             Halaman {page} dari {totalPages}
           </p>
           <div className="flex gap-2">
             <button
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
               disabled={page === 1}
-              className="p-2 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-white/5 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+              className="px-4 py-2 border-[3px] border-border bg-white font-bold hover:bg-primary hover:text-white disabled:opacity-40 disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed transition-all"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
               disabled={page === totalPages}
-              className="p-2 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-white/5 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+              className="px-4 py-2 border-[3px] border-border bg-white font-bold hover:bg-primary hover:text-white disabled:opacity-40 disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed transition-all"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>

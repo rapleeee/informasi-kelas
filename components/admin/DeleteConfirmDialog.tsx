@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X, Loader2, AlertTriangle } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 interface DeleteConfirmDialogProps {
   title: string;
@@ -17,61 +18,55 @@ export default function DeleteConfirmDialog({
   onConfirm,
 }: DeleteConfirmDialogProps) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   async function handleConfirm() {
     setLoading(true);
-    setError(null);
     try {
       await onConfirm();
+      toast.success("Berhasil dihapus!");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Terjadi kesalahan.");
+      toast.error(err instanceof Error ? err.message : "Terjadi kesalahan.");
+    } finally {
       setLoading(false);
     }
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="glass-strong rounded-2xl w-full max-w-sm border border-white/15 animate-fade-in-up">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <div className="flex items-center gap-2 text-destructive">
+      <div className="brutal-card w-full max-w-sm animate-slide-in bg-white shadow-[8px_8px_0px_#000]">
+        <div className="flex items-center justify-between px-6 py-4 border-b-[3px] border-border bg-destructive text-white">
+          <div className="flex items-center gap-2">
             <AlertTriangle className="w-5 h-5" />
-            <h2 className="text-base font-semibold">{title}</h2>
+            <h2 className="text-base font-black uppercase tracking-wider">{title}</h2>
           </div>
           <button
             onClick={onClose}
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="hover:text-black transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
-        <div className="px-6 py-5">
-          <p className="text-sm text-muted-foreground leading-relaxed">
+        <div className="px-6 py-6">
+          <p className="text-sm font-bold text-foreground leading-relaxed uppercase tracking-wider">
             {description}
           </p>
 
-          {error && (
-            <div className="mt-3 bg-destructive/10 border border-destructive/30 rounded-lg px-4 py-2.5 text-sm text-destructive">
-              {error}
-            </div>
-          )}
-
-          <div className="flex gap-3 mt-5">
+          <div className="flex gap-4 mt-6">
             <button
               onClick={onClose}
               disabled={loading}
-              className="flex-1 px-4 py-2.5 rounded-xl border border-border text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all"
+              className="flex-1 px-4 py-3 border-[3px] border-border bg-white text-foreground font-black uppercase tracking-wider hover:bg-muted transition-colors shadow-[4px_4px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none disabled:opacity-50"
             >
-              Batal
+              BATAL
             </button>
             <button
               onClick={handleConfirm}
               disabled={loading}
-              className="flex-1 flex items-center justify-center gap-2 bg-destructive text-white text-sm font-semibold py-2.5 px-4 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-60"
+              className="flex-1 flex items-center justify-center gap-2 bg-destructive border-[3px] border-border text-white text-sm font-black uppercase tracking-wider py-3 px-4 shadow-[4px_4px_0px_#000] hover:bg-red-600 hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all disabled:opacity-50"
             >
-              {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-              Hapus
+              {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+              HAPUS
             </button>
           </div>
         </div>

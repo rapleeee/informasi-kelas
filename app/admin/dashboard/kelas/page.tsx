@@ -71,104 +71,87 @@ export default function KelasPage() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 brutal-block bg-white p-6 shadow-[4px_4px_0px_#000]">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Master Kelas</h1>
-          <p className="text-muted-foreground text-sm mt-0.5">
+          <h1 className="heading-brutal text-3xl">Master Kelas</h1>
+          <p className="text-foreground font-bold mt-1">
             Kelola daftar kelas yang tersedia
           </p>
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-gradient-primary text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition-opacity"
+          className="brutal-btn px-5 py-3 flex items-center justify-center gap-2"
         >
-          <Plus className="w-4 h-4" />
-          Tambah Kelas
+          <Plus className="w-5 h-5" />
+          TAMBAH KELAS
         </button>
       </div>
 
       {/* Search */}
-      <div className="relative mb-5">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+      <div className="relative mb-6">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Cari nama kelas atau jurusan..."
-          className="admin-input pl-9"
+          className="brutal-input w-full pl-12 py-3"
         />
       </div>
 
       {/* Table */}
-      <div className="glass-strong rounded-2xl border border-white/10 overflow-hidden">
+      <div className="brutal-block bg-white shadow-[6px_6px_0px_#000] overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-16">
-            <Loader2 className="w-6 h-6 animate-spin text-primary" />
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
-            <School className="w-10 h-10 mb-3 opacity-30" />
-            <p className="text-sm">
+            <School className="w-12 h-12 mb-4 opacity-30" />
+            <p className="text-sm font-bold uppercase">
               {search ? "Kelas tidak ditemukan" : "Belum ada kelas"}
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="data-table">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium w-12">
-                    No
-                  </th>
-                  <th className="text-left px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                    Nama Kelas
-                  </th>
-                  <th className="text-left px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                    Jurusan
-                  </th>
-                  <th className="text-left px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                    Jumlah Siswa
-                  </th>
-                  <th className="text-right px-5 py-3.5 text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                    Aksi
-                  </th>
+                <tr>
+                  <th className="w-12">No</th>
+                  <th>Nama Kelas</th>
+                  <th>Jurusan</th>
+                  <th>Jumlah Siswa</th>
+                  <th className="text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((kelas, idx) => (
-                  <tr
-                    key={kelas.id}
-                    className="border-b border-border/50 hover:bg-white/3 transition-colors last:border-0"
-                  >
-                    <td className="px-5 py-4 text-muted-foreground">
-                      {idx + 1}
-                    </td>
-                    <td className="px-5 py-4 font-semibold text-foreground">
+                  <tr key={kelas.id}>
+                    <td className="text-center">{idx + 1}</td>
+                    <td className="font-black text-primary">
                       {kelas.namaKelas}
                     </td>
-                    <td className="px-5 py-4 text-muted-foreground">
-                      {kelas.jurusan}
-                    </td>
-                    <td className="px-5 py-4">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+                    <td>{kelas.jurusan}</td>
+                    <td>
+                      <span className="badge-brutal">
                         {kelas._count.siswa} siswa
                       </span>
                     </td>
-                    <td className="px-5 py-4">
+                    <td>
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleEdit(kelas)}
-                          className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all"
+                          className="p-2 border-[3px] border-border bg-white text-foreground hover:bg-primary hover:text-white transition-colors"
                           title="Edit"
                         >
-                          <Pencil className="w-3.5 h-3.5" />
+                          <Pencil className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => setDeleteTarget(kelas)}
-                          className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+                          className="p-2 border-[3px] border-border bg-white text-destructive hover:bg-destructive hover:text-white transition-colors"
                           title="Hapus"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
