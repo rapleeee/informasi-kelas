@@ -27,13 +27,17 @@ function CountdownUnit({
 
   return (
     <div
-      className="flex flex-col items-center journey-unit"
+      className="flex flex-col items-center animate-slide-in"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <span className="journey-number tabular-nums leading-none">
-        {formatted}
+      <div className="brutal-block bg-white px-3 py-4 md:px-6 md:py-8 shadow-[4px_4px_0px_#000] mb-3 min-w-[70px] md:min-w-[120px] text-center">
+        <span className="text-3xl md:text-6xl font-black tabular-nums leading-none text-primary">
+          {formatted}
+        </span>
+      </div>
+      <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-foreground bg-secondary px-2 py-0.5 border-2 border-border shadow-[2px_2px_0px_#000]">
+        {label}
       </span>
-      <span className="journey-label">{label}</span>
     </div>
   );
 }
@@ -80,7 +84,7 @@ export default function CountdownTimer({
   ];
 
   return (
-    <div className="flex items-start justify-center gap-6 sm:gap-10 md:gap-16">
+    <div className="flex flex-wrap items-start justify-center gap-4 sm:gap-8 md:gap-16 max-w-full">
       {units.map(({ value, label, delay }) => (
         <CountdownUnit key={label} value={value} label={label} delay={delay} />
       ))}

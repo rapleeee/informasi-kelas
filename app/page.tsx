@@ -4,7 +4,6 @@ import { useEffect, useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import CountdownTimer from "@/components/countdown/CountdownTimer";
 import SearchNIS from "@/components/publik/SearchNIS";
-// TODO: sesuaikan path import Folder ini dengan lokasi file Folder kamu yang sebenarnya
 import Folder from "@/components/Folder";
 import { GraduationCap } from "lucide-react";
 
@@ -94,8 +93,8 @@ export default function HomePage() {
   // ── Loading ────────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-dvh journey-bg flex items-center justify-center">
-        <div className="w-10 h-10 rounded-full border-2 border-[#6594B1] border-t-transparent animate-spin" />
+      <div className="min-h-dvh bg-pattern flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent animate-spin brutal-block rounded-none" />
       </div>
     );
   }
@@ -103,45 +102,45 @@ export default function HomePage() {
   // ── COUNTDOWN MODE ─────────────────────────────────────────────────────
   if (!isLive) {
     return (
-      <div className="min-h-dvh journey-bg relative overflow-hidden flex flex-col">
-        <StarsBg />
-
-        <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-4 py-16 text-center">
+      <div className="min-h-dvh bg-pattern relative overflow-hidden flex flex-col">
+        <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 md:px-12 py-16 text-center">
           {/* School badge */}
-          <p className="journey-school animate-fade-in-up">
+          <div className="badge-brutal mb-4 animate-fade-in-up">
             SMK Informatika Pesat
-          </p>
+          </div>
 
           {/* Title */}
-          <h1 className="journey-title animate-fade-in-up delay-100">
+          <h1 className="heading-brutal text-4xl md:text-6xl animate-fade-in-up delay-100 mb-8">
             JOURNEY BEGINS IN
           </h1>
 
           {/* Countdown */}
-          <div className="mt-10 md:mt-14 animate-fade-in-up delay-200">
+          <div className="animate-fade-in-up delay-200">
             <CountdownTimer
               targetDate={targetDate}
               onExpired={() => setIsLive(true)}
             />
           </div>
 
-
-          {/* Subtitle card */}
-          <div className="journey-subtitle-card animate-fade-in-up delay-400 mt-4 md:mt-6">
-            <p className="journey-subtitle-text">
-              Siap untuk kelas barumu?,
-             <br />
-              <span className="font-bold">Cek lagi ya website ini untuk informasi terbaru. Semangat menyambut kelas baru!</span>
+          {/* Subtitle card - Flat brutal block */}
+          <div className="brutal-block p-6 mt-12 animate-fade-in-up delay-400 max-w-lg mx-auto">
+            <p className="text-foreground text-sm md:text-base leading-relaxed">
+              Siap untuk kelas barumu?
+              <br />
+              <span className="font-bold">
+                Cek lagi ya website ini untuk informasi terbaru. Semangat menyambut kelas baru!
+              </span>
             </p>
           </div>
         </div>
 
         {/* Footer */}
         <footer className="relative z-10 text-center pb-6">
-          <p className="text-[#6594B1]/60 text-xs tracking-wider">
+          <p className="text-muted-foreground font-bold uppercase text-xs tracking-widest">
             © 2026 SMK Informatika Pesat
           </p>
         </footer>
+
         {/* Lottie — pojok kanan bawah */}
         <div className="fixed bottom-6 right-6 z-20 pointer-events-none animate-fade-in delay-500">
           <LottiePlayer
@@ -151,26 +150,31 @@ export default function HomePage() {
             width={280}
             height={280}
           />
-        </div>      </div>
+        </div>
+      </div>
     );
   }
 
   // ── LIVE MODE ──────────────────────────────────────────────────────────
   return (
-    <div className="min-h-dvh bg-[#EEEEEE] relative overflow-x-hidden">
-      <div className="relative z-10 flex flex-col items-center min-h-dvh px-4 py-12 md:py-20">
+    <div className="min-h-dvh bg-pattern relative overflow-x-hidden">
+      <div className="relative z-10 flex flex-col items-center min-h-dvh px-6 md:px-12 py-12 md:py-20">
+
         {/* Header */}
-        <header className="text-center mb-10 animate-fade-in-up">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-white border border-[#6594B1]/20 mb-5">
-            <GraduationCap className="w-7 h-7 text-[#213C51]" />
+        <header className="text-center mb-10 animate-slide-in">
+          <div className="inline-flex items-center justify-center w-16 h-16 brutal-block bg-white mb-6">
+            <GraduationCap className="w-8 h-8 text-primary" />
           </div>
-          <p className="text-xs uppercase tracking-[0.25em] text-[#6594B1] font-semibold mb-2">
+
+          <div className="badge-brutal mb-4 block w-fit mx-auto">
             SMK Informatika Pesat
-          </p>
-          <h1 className="text-2xl md:text-4xl font-bold text-[#213C51] leading-tight">
+          </div>
+
+          <h1 className="heading-brutal text-3xl md:text-5xl leading-tight">
             {pengaturan?.judulPengumuman ?? "Cek kelas kamu, yuk!"}
           </h1>
-          <p className="mt-3 text-[#213C51]/60 max-w-md mx-auto text-sm md:text-base leading-relaxed">
+
+          <p className="mt-4 text-foreground font-medium max-w-md mx-auto text-sm md:text-base leading-relaxed">
             {pengaturan?.deskripsiSingkat ??
               "Masukin NIS kamu, kelas kamu langsung muncul."}
           </p>
@@ -178,12 +182,12 @@ export default function HomePage() {
 
         {/* Folder kiri - Search NIS - Folder kanan */}
         <section className="w-full max-w-4xl">
-          <div className="flex items-center justify-center gap-6 md:gap-16 animate-fade-in-up delay-100">
+          <div className="flex items-center justify-center gap-6 md:gap-16 animate-slide-in delay-100">
             <div
               style={{ height: "260px", position: "relative" }}
-              className="hidden sm:block shrink-0"
+              className="hidden sm:block shrink-0 opacity-80"
             >
-              <Folder size={1.5} color="#6594B1" />
+              <Folder size={1.5} color="var(--primary)" />
             </div>
 
             <div className="w-full max-w-sm">
@@ -192,25 +196,31 @@ export default function HomePage() {
 
             <div
               style={{ height: "260px", position: "relative" }}
-              className="hidden sm:block shrink-0"
+              className="hidden sm:block shrink-0 opacity-80"
             >
-              <Folder size={1.5} color="#6594B1" />
+              <Folder size={1.5} color="var(--primary)" />
             </div>
           </div>
         </section>
 
         {/* Catatan jadwal datang ke sekolah */}
-        <p className="mt-10 text-xs text-[#213C51]/50 text-center max-w-md leading-relaxed animate-fade-in delay-200">
-          Jangan lupa dateng ke sekolah{" "}
-          <span className="font-semibold text-[#213C51]">
-            {pengaturan?.jadwalDatang ?? "Rabu, 15 Juli 2026"}
-          </span>{" "}
-          ya, biar makin jelas info kelasnya!
-        </p>
+        <div className="brutal-block p-4 mt-12 text-center max-w-md animate-slide-in delay-200">
+          <p className="text-sm font-medium">
+            Datang ya di sekolah hari {" "}
+            <span className="font-bold text-secondary uppercase bg-foreground text-white px-1">
+              {pengaturan?.jadwalDatang ?? "Rabu, 15 Juli 2026"}
+            </span>
+            <br />
+            Dan mulai perjalanan kamu!
+          </p>
+        </div>
 
         <footer className="mt-auto pt-16 text-center animate-fade-in">
-          <p className="text-[#213C51]/40 text-xs">
+          <p className="text-muted-foreground font-bold uppercase text-xs tracking-widest">
             © 2026 SMK Informatika Pesat
+          </p>
+          <p className="text-muted-foreground font-bold text-sm tracking-widest">
+            Designed by <a href="sekelikmedia.com">sekelikmedia</a>
           </p>
         </footer>
       </div>

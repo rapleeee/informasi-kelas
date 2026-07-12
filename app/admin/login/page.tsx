@@ -45,31 +45,26 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-dvh bg-gradient-page flex items-center justify-center px-4">
-      <div className="w-full max-w-md animate-fade-in-up">
+    <div className="min-h-dvh bg-pattern flex items-center justify-center px-4">
+      <div className="w-full max-w-md animate-slide-in">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-primary mb-4 shadow-lg glow-primary">
-            <GraduationCap className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-2xl font-bold text-foreground">Admin Panel</h1>
-          <p className="text-muted-foreground text-sm mt-1">
+        <div className="text-center mb-10">
+          <div className="badge-brutal mb-4 block w-fit mx-auto shadow-[2px_2px_0px_#000]">
             SMK Informatika Pesat
-          </p>
+          </div>
         </div>
 
         {/* Card */}
-        <div className="glass-strong rounded-2xl p-8">
-          <h2 className="text-lg font-semibold text-foreground mb-6 text-center">
-            Masuk ke Dashboard
+        <div className="brutal-card p-8 shadow-[8px_8px_0px_#000]">
+          <h2 className="text-xl font-black uppercase text-foreground mb-8 text-center border-b-[3px] border-border pb-4">
+            Masuk
           </h2>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {/* Username */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-foreground mb-1.5"
+                className="block text-sm font-black uppercase tracking-wider text-foreground mb-2"
               >
                 Username
               </label>
@@ -77,22 +72,21 @@ export default function AdminLoginPage() {
                 id="username"
                 type="text"
                 autoComplete="username"
-                className="admin-input"
+                className="brutal-input w-full"
                 placeholder="Masukkan username"
                 {...register("username")}
               />
               {errors.username && (
-                <p className="mt-1.5 text-xs text-destructive">
+                <p className="mt-2 text-xs font-bold text-white bg-destructive inline-block px-2 py-1 shadow-[2px_2px_0px_#000]">
                   {errors.username.message}
                 </p>
               )}
             </div>
 
-            {/* Password */}
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-foreground mb-1.5"
+                className="block text-sm font-black uppercase tracking-wider text-foreground mb-2"
               >
                 Password
               </label>
@@ -101,25 +95,25 @@ export default function AdminLoginPage() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
-                  className="admin-input pr-10"
+                  className="brutal-input w-full pr-12"
                   placeholder="Masukkan password"
                   {...register("password")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-0 top-0 bottom-0 px-4 border-l-[3px] border-border bg-muted hover:bg-white transition-colors"
                   tabIndex={-1}
                 >
                   {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
+                    <EyeOff className="w-5 h-5 text-foreground" />
                   ) : (
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-5 h-5 text-foreground" />
                   )}
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1.5 text-xs text-destructive">
+                <p className="mt-2 text-xs font-bold text-white bg-destructive inline-block px-2 py-1 shadow-[2px_2px_0px_#000]">
                   {errors.password.message}
                 </p>
               )}
@@ -127,33 +121,35 @@ export default function AdminLoginPage() {
 
             {/* Server Error */}
             {serverError && (
-              <div className="bg-destructive/10 border border-destructive/30 rounded-lg px-4 py-3 text-sm text-destructive">
+              <div className="brutal-block bg-destructive text-white px-4 py-3 font-bold shadow-[4px_4px_0px_#000]">
                 {serverError}
               </div>
             )}
 
             {/* Submit */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-primary text-white font-semibold py-2.5 px-4 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Memverifikasi...
-                </>
-              ) : (
-                <>
-                  <LogIn className="w-4 h-4" />
-                  Masuk
-                </>
-              )}
-            </button>
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="brutal-btn w-full py-4 flex items-center justify-center gap-2 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    MEMVERIFIKASI...
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="w-5 h-5" />
+                    MASUK
+                  </>
+                )}
+              </button>
+            </div>
           </form>
         </div>
 
-        <p className="text-center text-muted-foreground/50 text-xs mt-6">
+        <p className="text-center font-bold text-foreground text-xs mt-10 tracking-widest uppercase">
           © 2026 SMK Informatika Pesat
         </p>
       </div>

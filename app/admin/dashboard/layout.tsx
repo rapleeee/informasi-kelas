@@ -1,7 +1,8 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import Sidebar from "@/components/admin/Sidebar";
+import AdminLayoutWrapper from "@/components/admin/AdminLayoutWrapper";
 import SessionProviderWrapper from "@/components/admin/SessionProviderWrapper";
+import { Toaster } from "react-hot-toast";
 
 export default async function DashboardLayout({
   children,
@@ -15,12 +16,24 @@ export default async function DashboardLayout({
 
   return (
     <SessionProviderWrapper session={session}>
-      <div className="flex min-h-dvh bg-background">
-        <Sidebar />
-        <main className="flex-1 overflow-auto">
-          <div className="p-6 md:p-8">{children}</div>
-        </main>
-      </div>
+      <AdminLayoutWrapper>
+        {children}
+      </AdminLayoutWrapper>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: 'hsl(var(--card))',
+            color: 'hsl(var(--foreground))',
+            border: '3px solid hsl(var(--border))',
+            borderRadius: '0',
+            boxShadow: '4px 4px 0px hsl(var(--border))',
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            fontSize: '0.875rem'
+          }
+        }}
+      />
     </SessionProviderWrapper>
   );
 }

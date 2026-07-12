@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { X, Loader2 } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 const kelasSchema = z.object({
   namaKelas: z.string().min(1, "Nama kelas tidak boleh kosong"),
@@ -31,7 +31,6 @@ export default function KelasFormModal({
   onSuccess,
 }: KelasFormModalProps) {
   const isEdit = !!kelas;
-  const [serverError, setServerError] = useState<string | null>(null);
 
   const {
     register,
@@ -45,7 +44,6 @@ export default function KelasFormModal({
   });
 
   async function onSubmit(data: KelasForm) {
-    setServerError(null);
     try {
       const url = isEdit ? `/api/kelas/${kelas!.id}` : "/api/kelas";
       const method = isEdit ? "PUT" : "POST";
@@ -56,88 +54,83 @@ export default function KelasFormModal({
       });
       if (!res.ok) {
         const err = await res.json();
-        setServerError(err.error ?? "Terjadi kesalahan.");
+        toast.error(err.error ?? "Terjadi kesalahan.");
         return;
       }
+      toast.success(`Kelas berhasil ${isEdit ? "diperbarui" : "ditambahkan"}!`);
       onSuccess();
     } catch {
-      setServerError("Gagal terhubung ke server.");
+      toast.error("Gagal terhubung ke server.");
     }
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="glass-strong rounded-2xl w-full max-w-md border border-white/15 animate-fade-in-up">
+      <div className="brutal-card w-full max-w-md animate-slide-in shadow-[8px_8px_0px_#000] bg-white">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <h2 className="text-base font-semibold text-foreground">
+        <div className="flex items-center justify-between px-6 py-4 border-b-[3px] border-border bg-primary text-primary-foreground">
+          <h2 className="text-base font-black uppercase tracking-wider">
             {isEdit ? "Edit Kelas" : "Tambah Kelas"}
           </h2>
           <button
             onClick={onClose}
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-primary-foreground hover:text-secondary transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-5 space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-6 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">
+            <label className="block text-sm font-black uppercase tracking-wider text-foreground mb-2">
               Nama Kelas
             </label>
             <input
               type="text"
-              className="admin-input"
+              className="brutal-input w-full"
               placeholder="contoh: X-RPL-1"
               {...register("namaKelas")}
             />
             {errors.namaKelas && (
-              <p className="mt-1 text-xs text-destructive">
+              <p className="mt-2 text-xs font-bold text-white bg-destructive inline-block px-2 py-1 shadow-[2px_2px_0px_#000]">
                 {errors.namaKelas.message}
               </p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">
+            <label className="block text-sm font-black uppercase tracking-wider text-foreground mb-2">
               Jurusan
             </label>
             <input
               type="text"
-              className="admin-input"
+              className="brutal-input w-full"
               placeholder="contoh: Rekayasa Perangkat Lunak"
               {...register("jurusan")}
             />
             {errors.jurusan && (
-              <p className="mt-1 text-xs text-destructive">
+              <p className="mt-2 text-xs font-bold text-white bg-destructive inline-block px-2 py-1 shadow-[2px_2px_0px_#000]">
                 {errors.jurusan.message}
               </p>
             )}
           </div>
 
-          {serverError && (
-            <div className="bg-destructive/10 border border-destructive/30 rounded-lg px-4 py-2.5 text-sm text-destructive">
-              {serverError}
-            </div>
-          )}
-
-          <div className="flex gap-3 pt-1">
+          <div className="flex gap-4 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 rounded-xl border border-border text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all"
+              className="flex-1 px-4 py-3 border-[3px] border-border bg-white text-foreground font-black uppercase tracking-wider hover:bg-muted hover:translate-x-1 hover:translate-y-1 transition-transform shadow-[4px_4px_0px_#000] hover:shadow-none"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 flex items-center justify-center gap-2 bg-gradient-primary text-white text-sm font-semibold py-2.5 px-4 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-60"
+              className="brutal-btn flex-1 py-3 flex items-center justify-center gap-2 disabled:opacity-60"
             >
-              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-              {isEdit ? "Simpan Perubahan" : "Tambah Kelas"}
+              {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
+              {isEdit ? "SIMPAN" : "TAMBAH"}
             </button>
           </div>
         </form>
