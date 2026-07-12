@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import dynamic from "next/dynamic";
 import CountdownTimer from "@/components/countdown/CountdownTimer";
 import SearchNIS from "@/components/publik/SearchNIS";
-import Folder from "@/components/Folder";
 import { GraduationCap } from "lucide-react";
+import dynamic from "next/dynamic";
 
 const LottiePlayer = dynamic(
   () => import("@/components/shared/LottiePlayer"),
   { ssr: false }
 );
+
 
 interface Pengaturan {
   tanggalPengumuman: string;
@@ -157,73 +157,66 @@ export default function HomePage() {
 
   // ── LIVE MODE ──────────────────────────────────────────────────────────
   return (
-    <div className="min-h-dvh bg-pattern relative overflow-x-hidden">
-      <div className="relative z-10 flex flex-col items-center min-h-dvh px-6 md:px-12 py-12 md:py-20">
+    <div className="min-h-dvh bg-pattern relative overflow-x-hidden flex flex-col">
 
-        {/* Header */}
-        <header className="text-center mb-10 animate-slide-in">
-          <div className="inline-flex items-center justify-center w-16 h-16 brutal-block bg-white mb-6">
-            <GraduationCap className="w-8 h-8 text-primary" />
+      {/* ── TOP BAR ── */}
+      <header className="w-full border-b-[4px] border-border bg-white flex items-center justify-between px-6 md:px-12 py-4 shadow-[0_4px_0px_#000]">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-primary border-[3px] border-border flex items-center justify-center shadow-[3px_3px_0px_#000]">
+            <GraduationCap className="w-5 h-5 text-white" />
           </div>
-
-          <div className="badge-brutal mb-4 block w-fit mx-auto">
-            SMK Informatika Pesat
+          <div>
+            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground leading-none">SMK</p>
+            <p className="font-black uppercase leading-none text-sm">Informatika Pesat</p>
           </div>
+        </div>
+        <div className="badge-brutal text-xs">
+          {pengaturan?.judulPengumuman ?? "Pengumuman Kelas"}
+        </div>
+      </header>
 
-          <h1 className="heading-brutal text-3xl md:text-5xl leading-tight">
-            {pengaturan?.judulPengumuman ?? "Cek kelas kamu, yuk!"}
-          </h1>
+      {/* ── HERO ── */}
+      <main className="flex-1 flex flex-col items-center justify-center px-6 md:px-12 py-16 text-center relative z-10">
 
-          <p className="mt-4 text-foreground font-medium max-w-md mx-auto text-sm md:text-base leading-relaxed">
-            {pengaturan?.deskripsiSingkat ??
-              "Masukin NIS kamu, kelas kamu langsung muncul."}
-          </p>
-        </header>
-
-        {/* Folder kiri - Search NIS - Folder kanan */}
-        <section className="w-full max-w-4xl">
-          <div className="flex items-center justify-center gap-6 md:gap-16 animate-slide-in delay-100">
-            <div
-              style={{ height: "260px", position: "relative" }}
-              className="hidden sm:block shrink-0 opacity-80"
-            >
-              <Folder size={1.5} color="var(--primary)" />
-            </div>
-
-            <div className="w-full max-w-sm">
-              <SearchNIS />
-            </div>
-
-            <div
-              style={{ height: "260px", position: "relative" }}
-              className="hidden sm:block shrink-0 opacity-80"
-            >
-              <Folder size={1.5} color="var(--primary)" />
-            </div>
-          </div>
-        </section>
-
-        {/* Catatan jadwal datang ke sekolah */}
-        <div className="brutal-block p-4 mt-12 text-center max-w-md animate-slide-in delay-200">
-          <p className="text-sm font-medium">
-            Datang ya di sekolah hari {" "}
-            <span className="font-bold text-secondary uppercase bg-foreground text-white px-1">
-              {pengaturan?.jadwalDatang ?? "Rabu, 15 Juli 2026"}
-            </span>
-            <br />
-            Dan mulai perjalanan kamu!
-          </p>
+        {/* Sticker / tag */}
+        <div className="inline-block bg-secondary border-[3px] border-border px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-[4px_4px_0px_#000] mb-6 animate-fade-in-up">
+          📢 INFO KELAS BARU TA. 2026/2027
         </div>
 
-        <footer className="mt-auto pt-16 text-center animate-fade-in">
-          <p className="text-muted-foreground font-bold uppercase text-xs tracking-widest">
-            © 2026 SMK Informatika Pesat
+        {/* Big headline */}
+        <h1 className="heading-brutal text-4xl sm:text-5xl md:text-7xl leading-none mb-4 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
+          CEK<br />
+          <span className="text-primary">KELASMU</span><br />
+          SEKARANG
+        </h1>
+
+        <p className="text-foreground font-bold max-w-sm mx-auto text-sm md:text-base leading-relaxed mb-10 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+          {pengaturan?.deskripsiSingkat ?? "Masukkan NIS kamu dan temukan informasi kelas barumu untuk tahun ajaran 2026/2027."}
+        </p>
+
+        {/* Search box - the hero element */}
+        <div className="w-full max-w-lg animate-slide-in" style={{ animationDelay: "300ms" }}>
+          <SearchNIS />
+        </div>
+
+        {/* Jadwal note */}
+        <div className="mt-10 border-[3px] border-border bg-white shadow-[4px_4px_0px_#000] px-6 py-3 animate-fade-in-up inline-flex items-center gap-3" style={{ animationDelay: "400ms" }}>
+          <span className="text-lg">📅</span>
+          <p className="text-sm font-bold uppercase tracking-wider">
+            Hari Pertama Masuk:{" "}
+            <span className="text-secondary font-black">
+              {pengaturan?.jadwalDatang ?? "Rabu, 15 Juli 2026"}
+            </span>
           </p>
-          <p className="text-muted-foreground font-bold text-sm tracking-widest">
-            Designed by <a href="sekelikmedia.com">sekelikmedia</a>
-          </p>
-        </footer>
-      </div>
+        </div>
+      </main>
+
+      {/* ── FOOTER ── */}
+      <footer className="border-t-[3px] border-border bg-white px-6 py-4 text-center">
+        <p className="text-muted-foreground font-bold uppercase text-xs tracking-widest">
+          © 2026 SMK Informatika Pesat · Semangat Tahun Ajaran Baru!
+        </p>
+      </footer>
     </div>
   );
 }
