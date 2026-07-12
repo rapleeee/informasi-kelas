@@ -113,7 +113,7 @@ function HasilModal({
               <div className="flex items-center gap-2 mb-2">
                 <School className="w-5 h-5 text-primary" />
                 <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">
-                  Masuk
+                  Mulai
                 </p>
               </div>
               <p className="font-black text-sm text-foreground leading-snug">
