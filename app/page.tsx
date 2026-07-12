@@ -4,7 +4,6 @@ import { useEffect, useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import CountdownTimer from "@/components/countdown/CountdownTimer";
 import SearchNIS from "@/components/publik/SearchNIS";
-// TODO: sesuaikan path import Folder ini dengan lokasi file Folder kamu yang sebenarnya
 import Folder from "@/components/Folder";
 import { GraduationCap } from "lucide-react";
 
@@ -130,7 +129,7 @@ export default function HomePage() {
           <div className="journey-subtitle-card animate-fade-in-up delay-400 mt-4 md:mt-6">
             <p className="journey-subtitle-text">
               Siap untuk kelas barumu?,
-             <br />
+              <br />
               <span className="font-bold">Cek lagi ya website ini untuk informasi terbaru. Semangat menyambut kelas baru!</span>
             </p>
           </div>
@@ -201,11 +200,11 @@ export default function HomePage() {
 
         {/* Catatan jadwal datang ke sekolah */}
         <p className="mt-10 text-xs text-[#213C51]/50 text-center max-w-md leading-relaxed animate-fade-in delay-200">
-          Jangan lupa dateng ke sekolah{" "}
+          Datang ya di sekolah hari {" "}
           <span className="font-semibold text-[#213C51]">
             {pengaturan?.jadwalDatang ?? "Rabu, 15 Juli 2026"}
           </span>{" "}
-          ya, biar makin jelas info kelasnya!
+          Dan mulai perjalanan kamu!
         </p>
 
         <footer className="mt-auto pt-16 text-center animate-fade-in">
