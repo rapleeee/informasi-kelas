@@ -200,15 +200,15 @@ export default function HomePage() {
         </div>
 
         {/* Jadwal note */}
-        <div className="mt-10 border-[3px] border-border bg-white shadow-[4px_4px_0px_#000] px-6 py-3 animate-fade-in-up inline-flex items-center gap-3" style={{ animationDelay: "400ms" }}>
+        {/* <div className="mt-10 border-[3px] border-border bg-white shadow-[4px_4px_0px_#000] px-6 py-3 animate-fade-in-up inline-flex items-center gap-3" style={{ animationDelay: "400ms" }}>
           <span className="text-lg">📅</span>
           <p className="text-sm font-bold uppercase tracking-wider">
-            Hari Pertama Masuk:{" "}
+            Hari Pertama Datang Sekolah:{" "}
             <span className="text-secondary font-black">
-              {pengaturan?.jadwalDatang ?? "Rabu, 15 Juli 2026"}
+              Kamis, 17 Juli 2026
             </span>
           </p>
-        </div>
+        </div> */}
       </main>
 
       {/* ── FOOTER ── */}
