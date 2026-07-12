@@ -159,21 +159,21 @@ export default function HomePage() {
   return (
     <div className="min-h-dvh bg-pattern relative overflow-x-hidden">
       <div className="relative z-10 flex flex-col items-center min-h-dvh px-6 md:px-12 py-12 md:py-20">
-        
+
         {/* Header */}
         <header className="text-center mb-10 animate-slide-in">
           <div className="inline-flex items-center justify-center w-16 h-16 brutal-block bg-white mb-6">
             <GraduationCap className="w-8 h-8 text-primary" />
           </div>
-          
+
           <div className="badge-brutal mb-4 block w-fit mx-auto">
             SMK Informatika Pesat
           </div>
-          
+
           <h1 className="heading-brutal text-3xl md:text-5xl leading-tight">
             {pengaturan?.judulPengumuman ?? "Cek kelas kamu, yuk!"}
           </h1>
-          
+
           <p className="mt-4 text-foreground font-medium max-w-md mx-auto text-sm md:text-base leading-relaxed">
             {pengaturan?.deskripsiSingkat ??
               "Masukin NIS kamu, kelas kamu langsung muncul."}
@@ -218,6 +218,9 @@ export default function HomePage() {
         <footer className="mt-auto pt-16 text-center animate-fade-in">
           <p className="text-muted-foreground font-bold uppercase text-xs tracking-widest">
             © 2026 SMK Informatika Pesat
+          </p>
+          <p className="text-muted-foreground font-bold text-sm tracking-widest">
+            Designed by <a href="sekelikmedia.com">sekelikmedia</a>
           </p>
         </footer>
       </div>
